@@ -217,25 +217,20 @@ public class MainMenuFragment extends Fragment {
 
     /** Make our modpack profile the selected one; install it if it is missing or incomplete. */
     private boolean selectOpcProfile() {
-        if (!LauncherActivity.isOpcPackInstalled()) {
+        String key = LauncherActivity.findOpcProfileKey();
+        if (key == null) {
             if (ProgressKeeper.getTaskCount() == 0 && getActivity() instanceof LauncherActivity) {
                 ((LauncherActivity) getActivity()).installBundledPackIfNeeded();
             }
             return false;
         }
-        for (Map.Entry<String, MinecraftProfile> entry : LauncherProfiles.mainProfileJson.profiles.entrySet()) {
-            MinecraftProfile profile = entry.getValue();
-            if (profile != null && OPC_PROFILE_NAME.equals(profile.name)) {
-                String current = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, "");
-                if (!entry.getKey().equals(current)) {
-                    LauncherPreferences.DEFAULT_PREF.edit()
-                            .putString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, entry.getKey())
-                            .apply();
-                }
-                return true;
-            }
+        String current = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, "");
+        if (!key.equals(current)) {
+            LauncherPreferences.DEFAULT_PREF.edit()
+                    .putString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, key)
+                    .apply();
         }
-        return false;
+        return true;
     }
 
     /* ---------------- actions ---------------- */

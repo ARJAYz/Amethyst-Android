@@ -56,6 +56,33 @@ jobs:
             rm -f app_pojavlauncher/src/main/assets/opc/modpack.mrpack
           fi
 
+      # Packs zipped on Windows can contain "overrides\\mods\\x.jar" names; Android then
+      # puts every file in one flat folder. Rewrite them with "/".
+      - name: Normalize modpack paths
+        run: |
+          f=app_pojavlauncher/src/main/assets/opc/modpack.mrpack
+          if [ -f "$f" ]; then
+            python3 - "$f" <<'PY'
+          import sys, zipfile, os
+          src = sys.argv[1]
+          dst = src + ".fixed"
+          zin = zipfile.ZipFile(src)
+          if any("\\" in n for n in zin.namelist()):
+              zout = zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED, compresslevel=1)
+              for i in zin.infolist():
+                  name = i.filename.replace("\\", "/")
+                  if name.endswith("/"):
+                      continue
+                  zout.writestr(zipfile.ZipInfo(name, date_time=i.date_time), zin.read(i), zipfile.ZIP_DEFLATED, 1)
+              zout.close(); zin.close()
+              os.replace(dst, src)
+              print("pack paths fixed")
+          else:
+              print("pack paths already fine")
+          PY
+            ls -lh "$f"
+          fi
+
       - name: Free disk space
         run: sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost || true
 

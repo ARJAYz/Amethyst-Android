@@ -359,18 +359,37 @@ public class LauncherActivity extends BaseActivity {
 
     private static volatile boolean sOpcInstallTried = false;
 
-    /** Our Place Craft: true when the modpack profile exists AND its game version is on disk */
-    public static boolean isOpcPackInstalled() {
+    /** Our Place Craft: key of a complete modpack profile (game version + mods on disk), or null.
+     *  Broken profiles with the same name (e.g. from an earlier failed install) are removed. */
+    public static String findOpcProfileKey() {
         net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.load();
-        if (net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.mainProfileJson == null) return false;
-        for (net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile profile :
-                net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.mainProfileJson.profiles.values()) {
-            if (profile != null && "OUR PLACE CRAFT".equals(profile.name) && profile.lastVersionId != null) {
+        if (net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.mainProfileJson == null) return null;
+        java.util.Map<String, net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile> profiles =
+                net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.mainProfileJson.profiles;
+        String good = null;
+        java.util.List<String> broken = new java.util.ArrayList<>();
+        for (java.util.Map.Entry<String, net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile> e : profiles.entrySet()) {
+            net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile profile = e.getValue();
+            if (profile == null || !"OUR PLACE CRAFT".equals(profile.name)) continue;
+            boolean ok = false;
+            if (profile.lastVersionId != null && profile.gameDir != null) {
                 File json = new File(Tools.DIR_HOME_VERSION + "/" + profile.lastVersionId + "/" + profile.lastVersionId + ".json");
-                if (json.exists()) return true;
+                File mods = new File(Tools.DIR_GAME_HOME, profile.gameDir.startsWith("./") ? profile.gameDir.substring(2) : profile.gameDir);
+                mods = new File(mods, "mods");
+                String[] list = mods.list();
+                ok = json.exists() && list != null && list.length > 0;
             }
+            if (ok && good == null) good = e.getKey(); else if (!ok) broken.add(e.getKey());
         }
-        return false;
+        if (good == null && !broken.isEmpty()) {
+            for (String key : broken) profiles.remove(key);
+            net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.write();
+        }
+        return good;
+    }
+
+    public static boolean isOpcPackInstalled() {
+        return findOpcProfileKey() != null;
     }
 
     /** Our Place Craft: install the bundled pack again (retry after a failure) */
