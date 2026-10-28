@@ -218,6 +218,15 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
         return mSelectecAccount;
     }
 
+    /** Our Place Craft: reload accounts from disk and select the one with this name */
+    public void selectAccountByName(String name){
+        reloadAccounts(true, 0);
+        int index = mAccountList.indexOf(name);
+        if(index <= 0) return;
+        pickAccount(index);
+        if(mSelectecAccount != null) performLogin(mSelectecAccount);
+    }
+
     public int getLoginState(){
         return mLoginStep;
     }

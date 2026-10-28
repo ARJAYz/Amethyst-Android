@@ -352,7 +352,18 @@ public class LauncherActivity extends BaseActivity {
 
     // Our Place Craft: the modpack is bundled inside the APK (assets/opc/modpack.mrpack).
     // On first start it is imported automatically, same as "Import modpack" does.
-    private void installBundledPackIfNeeded() {
+    /** Our Place Craft: used by the main screen */
+    public mcAccountSpinner getAccountSpinner() {
+        return mAccountSpinner;
+    }
+
+    /** Our Place Craft: install the bundled pack again (e.g. the profile was deleted) */
+    public void reinstallBundledPack() {
+        LauncherPreferences.DEFAULT_PREF.edit().putBoolean("opc_pack_installed", false).apply();
+        installBundledPackIfNeeded();
+    }
+
+    public void installBundledPackIfNeeded() {
         if (LauncherPreferences.DEFAULT_PREF.getBoolean("opc_pack_installed", false)) return;
         String[] bundled;
         try {

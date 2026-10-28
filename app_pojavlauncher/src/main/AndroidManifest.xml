@@ -61,6 +61,7 @@
         <activity
             android:name=".LauncherActivity"
             android:label="@string/app_short_name"
+            android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ImportControlActivity"

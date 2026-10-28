@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+            <item><shape><solid android:color="#1D3F1B"/></shape></item>
+            <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp"><shape><solid android:color="#2A6427"/></shape></item>
+            <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="6dp"><shape><solid android:color="#2A6427"/></shape></item>
+        </layer-list>
+    </item>
+    <item android:state_enabled="false">
+        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+            <item><shape><solid android:color="#1D3F1B"/></shape></item>
+            <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp"><shape><solid android:color="#3a3a3a"/></shape></item>
+            <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="6dp"><shape><solid android:color="#555555"/></shape></item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+            <item><shape><solid android:color="#1D3F1B"/></shape></item>
+            <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp"><shape><solid android:color="#2A6427"/></shape></item>
+            <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="6dp"><shape><solid android:color="#3E8E3A"/></shape></item>
+        </layer-list>
+    </item>
+</selector>

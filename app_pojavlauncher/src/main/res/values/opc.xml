@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Our Place Craft: own styles and texts -->
+<resources>
+    <style name="OpcButton">
+        <item name="android:fontFamily">@font/noto_sans_bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingLeft">@dimen/_4sdp</item>
+        <item name="android:paddingRight">@dimen/_4sdp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="OpcLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/_3sdp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">#BBBBBB</item>
+        <item name="android:textSize">@dimen/_9ssp</item>
+    </style>
+
+    <style name="OpcCard">
+        <item name="android:background">@drawable/opc_card</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/_16sdp</item>
+    </style>
+
+    <style name="OpcCardTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/noto_sans_bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">@dimen/_15ssp</item>
+    </style>
+
+    <style name="OpcCardText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/_4sdp</item>
+        <item name="android:textColor">#BBBBBB</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+    </style>
+
+    <string name="opc_version_label" translatable="false">OUR PLACE CRAFT · NeoForge 1.21.1</string>
+    <string name="opc_nick" translatable="false">НИК</string>
+    <string name="opc_memory" translatable="false">ПАМЯТЬ</string>
+    <string name="opc_skin" translatable="false">Скин</string>
+    <string name="opc_controls" translatable="false">Управление</string>
+    <string name="opc_settings" translatable="false">Настройки</string>
+    <string name="opc_memory_value" translatable="false">%1$.1f ГБ</string>
+    <string name="opc_no_nick" translatable="false">Войти</string>
+
+    <string name="opc_install_title" translatable="false">Установка Our Place Craft</string>
+    <string name="opc_install_text" translatable="false">Скачиваем Minecraft 1.21.1, NeoForge и моды. Не закрывайте приложение.</string>
+    <string name="opc_download_title" translatable="false">Подготовка игры</string>
+    <string name="opc_busy" translatable="false">Подождите, идёт установка…</string>
+    <string name="opc_not_installed" translatable="false">Сборка ещё не установлена. Установка начнётся автоматически.</string>
+
+    <string name="opc_login_title" translatable="false">Добро пожаловать!</string>
+    <string name="opc_login_text" translatable="false">Для игры нужен купленный Minecraft: Java Edition. Войдите один раз через Microsoft — после этого можно играть под любым ником на сервере.</string>
+    <string name="opc_login_text_done" translatable="false">Вход выполнен. Выберите ник для сервера или оставьте ник Microsoft.</string>
+    <string name="opc_login_microsoft" translatable="false">Войти через Microsoft</string>
+    <string name="opc_login_nick" translatable="false">Ник на сервере</string>
+    <string name="opc_login_nick_hint" translatable="false">от 3 до 16 символов: A–Z, 0–9, _</string>
+    <string name="opc_login_done" translatable="false">Готово</string>
+    <string name="opc_login_need_ms" translatable="false">Сначала войдите через Microsoft</string>
+    <string name="opc_bad_nick" translatable="false">Ник: от 3 до 16 символов, только латиница, цифры и _</string>
+
+    <string name="opc_nick_dialog_title" translatable="false">Ник на сервере</string>
+    <string name="opc_ok" translatable="false">OK</string>
+    <string name="opc_cancel" translatable="false">Отмена</string>
+    <string name="opc_skin_title" translatable="false">Скин</string>
+    <string name="opc_skin_text" translatable="false">Скин ставится прямо на сервере командой:\n\n/skin set mojang &lt;ник&gt; — скин любого игрока Minecraft\n/skin clear — убрать скин\n\nСкин сохраняется на сервере и виден всем.</string>
+</resources>

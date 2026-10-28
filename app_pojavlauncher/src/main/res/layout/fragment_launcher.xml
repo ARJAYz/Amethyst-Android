@@ -1,155 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Our Place Craft: main screen (replaces the original launcher menu).
+     Sizes use sdp/ssp so the screen scales with the device; the bottom panel is
+     limited in width so it stays compact on tablets. -->
 <androidx.constraintlayout.widget.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/fragment_menu_main"
-	android:gravity="top"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical"
-	android:background="@color/background_app"
-	>
-	<!-- Our Place Craft background -->
-	<ImageView
-		android:id="@+id/opc_background"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		android:scaleType="centerCrop"
-		android:src="@drawable/opc_menu_background"
-		android:importantForAccessibility="no"
-		android:translationZ="-2dp"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"/>
-	<ScrollView
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toTopOf="@id/mc_version_spinner">
-		<androidx.constraintlayout.widget.ConstraintLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/center_guideline"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				android:orientation="vertical"
-				app:layout_constraintGuide_percent="0.5"/>
-			<com.kdt.mcgui.LauncherMenuButton
-				android:id="@+id/news_button"
-				style="@style/LauncherMenuButton.Universal"
-				android:layout_width="0dp"
-				android:text="@string/mcl_tab_wiki"
-				android:drawableStart="@drawable/ic_menu_news"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toStartOf="@id/social_divider" />
-			<View
-				android:id="@+id/social_divider"
-				style="@style/LauncherFragment_Divider"
-				android:layout_marginVertical="@dimen/padding_large"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintStart_toStartOf="@id/center_guideline"
-				app:layout_constraintEnd_toEndOf="@id/center_guideline"
-				app:layout_constraintBottom_toBottomOf="@id/news_button"/>
-			<com.kdt.mcgui.LauncherMenuButton
-				android:id="@+id/discord_button"
-				style="@style/LauncherMenuButton.Universal"
-				android:layout_width="0dp"
-				android:text="@string/mcl_button_discord"
-				android:drawableStart="@drawable/ic_discord"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintStart_toEndOf="@id/social_divider"
-				app:layout_constraintEnd_toEndOf="parent"/>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_menu_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#100E16">
 
+    <ImageView
+        android:id="@+id/opc_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        android:src="@drawable/opc_menu_background"
+        app:layout_constraintBottom_toTopOf="@id/opc_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-			<com.kdt.mcgui.LauncherMenuButton
-				android:id="@+id/custom_control_button"
-				style="@style/LauncherMenuButton.Universal"
-				android:layout_width="match_parent"
-				android:drawableStart="@drawable/ic_menu_custom_controls"
-				android:text="@string/mcl_option_customcontrol"
-				app:layout_constraintTop_toBottomOf="@id/news_button" />
+    <TextView
+        android:id="@+id/opc_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:fontFamily="@font/noto_sans_bold"
+        android:shadowColor="#000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="1"
+        android:text="@string/opc_version_label"
+        android:textColor="#E6E6E6"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-			<com.kdt.mcgui.LauncherMenuButton
-				android:id="@+id/install_jar_button"
-				style="@style/LauncherMenuButton.Universal"
-				android:layout_width="match_parent"
-				android:drawableStart="@drawable/ic_menu_install_jar"
-				android:text="@string/main_install_jar_file"
-				app:layout_constraintTop_toBottomOf="@id/custom_control_button" />
+    <!-- Controls editor; the settings button (activity) sits to its right -->
+    <ImageButton
+        android:id="@+id/opc_controls_button"
+        android:layout_width="@dimen/_36sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_56sdp"
+        android:background="@drawable/opc_icon_btn"
+        android:contentDescription="@string/opc_controls"
+        android:padding="@dimen/_7sdp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_menu_custom_controls"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-			<com.kdt.mcgui.LauncherMenuButton
-				android:id="@+id/share_logs_button"
-				style="@style/LauncherMenuButton.Universal"
-				android:layout_width="match_parent"
-				android:drawableStart="@android:drawable/ic_menu_share"
-				android:text="@string/main_share_logs"
-				app:layout_constraintTop_toBottomOf="@id/install_jar_button" />
+    <!-- Bottom panel: full width on phones, centred block on tablets -->
+    <View
+        android:id="@+id/opc_panel_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/opc_panel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/opc_panel" />
 
-			<com.kdt.mcgui.LauncherMenuButton
-				android:id="@+id/open_files_button"
-				style="@style/LauncherMenuButton.Universal"
-				android:layout_width="match_parent"
-				android:drawableStart="@drawable/ic_folder"
-				android:text="@string/mcl_button_open_directory"
-				app:layout_constraintTop_toBottomOf="@id/share_logs_button" />
-		</androidx.constraintlayout.widget.ConstraintLayout>
-	</ScrollView>
+    <LinearLayout
+        android:id="@+id/opc_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="760dp">
 
-	<com.kdt.mcgui.mcVersionSpinner
-		android:id="@+id/mc_version_spinner"
-		android:layout_width="0dp"
-		android:layout_height="@dimen/_52sdp"
-		android:background="@android:color/transparent"
-		android:drawableEnd="@drawable/spinner_arrow"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.25"
+            android:orientation="vertical">
 
-		app:drawableEndSize="@dimen/padding_heavy"
-		app:drawableStartIntegerScaling="true"
-		app:drawableStartSize="@dimen/_36sdp"
-		app:drawableEndPadding="@dimen/_1sdp"
+            <TextView
+                style="@style/OpcLabel"
+                android:text="@string/opc_nick" />
 
-		app:layout_constraintBottom_toTopOf="@id/play_button"
-		app:layout_constraintEnd_toStartOf="@+id/edit_profile_button"
-		app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/opc_nick"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/opc_field"
+                android:ellipsize="end"
+                android:fontFamily="@font/noto_sans_bold"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_8sdp"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/_12ssp" />
+        </LinearLayout>
 
-	<ImageButton
-		android:id="@+id/edit_profile_button"
-		android:layout_width="@dimen/_52sdp"
-		android:layout_height="@dimen/_52sdp"
-		android:background="?android:attr/selectableItemBackground"
+        <Button
+            android:id="@+id/play_button"
+            style="@style/OpcButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_44sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_weight="1.7"
+            android:background="@drawable/opc_btn_green"
+            android:text="@string/opc_play"
+            android:textSize="@dimen/_16ssp" />
 
-		android:src="@drawable/ic_edit_profile"
-		app:layout_constraintBottom_toBottomOf="@+id/mc_version_spinner"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="@+id/mc_version_spinner" />
+        <Button
+            android:id="@+id/opc_single_button"
+            style="@style/OpcButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_34sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_weight="1.05"
+            android:background="@drawable/opc_btn_gray"
+            android:text="@string/opc_singleplayer" />
 
+        <Button
+            android:id="@+id/opc_skin_button"
+            style="@style/OpcButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_34sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_weight="0.7"
+            android:background="@drawable/opc_btn_gray"
+            android:text="@string/opc_skin" />
 
-	<!-- This view is for cosmetic purpose only -->
-	<View
-		android:id="@+id/_background_display_view"
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:background="@color/background_bottom_bar"
-		android:translationZ="-1dp"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_weight="1.1"
+            android:orientation="vertical">
 
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintTop_toTopOf="@id/mc_version_spinner" />
+            <TextView
+                style="@style/OpcLabel"
+                android:text="@string/opc_memory" />
 
-	<com.kdt.mcgui.MineButton
-		android:id="@+id/play_button"
-		android:layout_width="match_parent"
-		android:layout_height="@dimen/_62sdp"
+            <SeekBar
+                android:id="@+id/opc_memory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:progressTint="#3E8E3A"
+                android:thumbTint="#DDDDDD" />
 
-		android:layout_marginHorizontal="@dimen/_17sdp"
-		android:layout_marginBottom="@dimen/_15sdp"
+            <TextView
+                android:id="@+id/opc_memory_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+    </LinearLayout>
 
-		android:textAllCaps="true"
-		android:text="@string/opc_play"
-		app:layout_constraintBottom_toBottomOf="parent"
-		/>
+    <!-- Install / download progress card -->
+    <FrameLayout
+        android:id="@+id/opc_progress_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#CC0A0910"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            style="@style/OpcCard"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/opc_progress_title"
+                style="@style/OpcCardTitle"
+                android:text="@string/opc_install_title" />
+
+            <TextView
+                style="@style/OpcCardText"
+                android:text="@string/opc_install_text" />
+
+            <ProgressBar
+                android:id="@+id/opc_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:max="100"
+                android:progressDrawable="@drawable/opc_progress" />
+
+            <TextView
+                android:id="@+id/opc_progress_text"
+                style="@style/OpcCardText"
+                android:layout_marginTop="@dimen/_8sdp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- First start: sign in -->
+    <FrameLayout
+        android:id="@+id/opc_login_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#CC0A0910"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                style="@style/OpcCard"
+                android:layout_width="@dimen/_300sdp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/OpcCardTitle"
+                    android:text="@string/opc_login_title" />
+
+                <TextView
+                    android:id="@+id/opc_login_text"
+                    style="@style/OpcCardText"
+                    android:text="@string/opc_login_text" />
+
+                <Button
+                    android:id="@+id/opc_ms_button"
+                    style="@style/OpcButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_34sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/opc_btn_blue"
+                    android:text="@string/opc_login_microsoft" />
+
+                <TextView
+                    style="@style/OpcCardText"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:text="@string/opc_login_nick" />
+
+                <EditText
+                    android:id="@+id/opc_login_nick"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@drawable/opc_field"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+                    android:hint="@string/opc_login_nick_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLength="16"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#777777"
+                    android:textSize="@dimen/_12ssp" />
+
+                <Button
+                    android:id="@+id/opc_login_done"
+                    style="@style/OpcButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_34sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/opc_btn_green"
+                    android:text="@string/opc_login_done" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

@@ -10,6 +10,9 @@ on:
       - 'l10n_v3_openjdk'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -63,7 +66,8 @@ jobs:
 
       - name: Build Debug .apk
         run: |
-          gradle :app_pojavlauncher:assembleDebug
+          set -o pipefail
+          gradle :app_pojavlauncher:assembleDebug 2>&1 | tee build.log
           mv app_pojavlauncher/build/outputs/apk/debug/app_pojavlauncher-debug.apk out/app-debug.apk
 
       - name: Gen md5sums
@@ -75,3 +79,15 @@ jobs:
         with:
           name: OurPlaceCraft-apk
           path: out/app-debug.*
+
+      # Our Place Craft: on failure, publish the end of the build log to the
+      # "ci-log" branch so it can be read without opening the Actions page.
+      - name: Publish build log on failure
+        if: failure()
+        run: |
+          mkdir -p /tmp/cilog && cd /tmp/cilog
+          git init -q && git checkout -q -b ci-log
+          { echo "run: ${{ github.run_id }}"; grep -n -E "error:|e: |FAILURE|What went wrong|Caused by|AAPT|wrong" -A3 "$GITHUB_WORKSPACE/build.log" | head -300; echo "----- tail -----"; tail -150 "$GITHUB_WORKSPACE/build.log"; } > build-log.txt 2>/dev/null || echo "no build.log" > build-log.txt
+          git add build-log.txt
+          git -c user.name=ci -c user.email=ci@local commit -qm "build log ${{ github.run_id }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-log

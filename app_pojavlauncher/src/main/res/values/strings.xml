@@ -518,5 +518,5 @@
     <string name="use_angle_checkbox">Use ANGLE (might help FPS)</string>
 
     <string name="opc_play" translatable="false">НА СЕРВЕР</string>
-    <string name="opc_singleplayer" translatable="false">Одиночная игра</string>
+    <string name="opc_singleplayer" translatable="false">Одиночная</string>
 </resources>
