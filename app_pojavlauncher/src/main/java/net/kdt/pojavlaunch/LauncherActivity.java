@@ -347,6 +347,42 @@ public class LauncherActivity extends BaseActivity {
         mProgressLayout.observe(ProgressLayout.INSTALL_MODPACK);
         mProgressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT);
         mProgressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST);
+        installBundledPackIfNeeded();
+    }
+
+    // Our Place Craft: the modpack is bundled inside the APK (assets/opc/modpack.mrpack).
+    // On first start it is imported automatically, same as "Import modpack" does.
+    private void installBundledPackIfNeeded() {
+        if (LauncherPreferences.DEFAULT_PREF.getBoolean("opc_pack_installed", false)) return;
+        String[] bundled;
+        try {
+            bundled = getAssets().list("opc");
+        } catch (IOException e) {
+            return;
+        }
+        if (bundled == null || !java.util.Arrays.asList(bundled).contains("modpack.mrpack")) return;
+        if (ProgressKeeper.getTaskCount() > 0) return;
+        PojavApplication.sExecutorService.execute(() -> {
+            File modpackFile = new File(Tools.DIR_CACHE, "opc_modpack.mrpack");
+            try {
+                ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.import_modpack_start);
+                try (InputStream input = getAssets().open("opc/modpack.mrpack");
+                     FileOutputStream output = new FileOutputStream(modpackFile)) {
+                    byte[] buffer = new byte[262144];
+                    int read;
+                    while ((read = input.read(buffer)) != -1) output.write(buffer, 0, read);
+                }
+                ModLoader loaderInfo = new CommonApi(getString(R.string.curseforge_api_key)).importModpack(modpackFile);
+                modpackFile.delete();
+                if (loaderInfo == null) return;
+                LauncherPreferences.DEFAULT_PREF.edit().putBoolean("opc_pack_installed", true).apply();
+                loaderInfo.getDownloadTask(new NotificationDownloadListener(this, loaderInfo)).run();
+            } catch (Exception e) {
+                modpackFile.delete();
+                Tools.showErrorRemote(this, R.string.modpack_install_download_failed, e);
+                ProgressLayout.clearProgress(ProgressLayout.INSTALL_MODPACK);
+            }
+        });
     }
 
     @Override

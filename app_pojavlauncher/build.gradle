@@ -100,7 +100,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "org.angelauramc.amethyst"
+        applicationId "com.ourplacecraft.launcher"
         minSdkVersion 21
         targetSdkVersion 34
         versionCode 10000000
@@ -122,11 +122,11 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.customDebug
-            resValue "string", "app_name", "Amethyst (Debug)"
-            resValue "string", "app_short_name", "Amethyst (Debug)"
-            resValue 'string', 'application_package', 'org.angelauramc.amethyst.debug'
-            resValue 'string', 'storageProviderAuthorities', 'org.angelauramc.amethyst.scoped.gamefolder.debug'
-            resValue 'string', 'shareProviderAuthority', 'org.angelauramc.amethyst.scoped.controlfolder.debug'
+            resValue "string", "app_name", "Our Place Craft"
+            resValue "string", "app_short_name", "Our Place Craft"
+            resValue 'string', 'application_package', 'com.ourplacecraft.launcher.debug'
+            resValue 'string', 'storageProviderAuthorities', 'com.ourplacecraft.launcher.scoped.gamefolder.debug'
+            resValue 'string', 'shareProviderAuthority', 'com.ourplacecraft.launcher.scoped.controlfolder.debug'
         }
         proguard {
             initWith debug
@@ -146,10 +146,10 @@ android {
             // defaultConfig already set
             // multiDexEnabled = true
             // debuggable = true
-            resValue "string", "app_name", "Amethyst"
-            resValue "string", "app_short_name", "Amethyst"
-            resValue 'string', 'storageProviderAuthorities', 'org.angelauramc.amethyst.scoped.gamefolder'
-            resValue 'string', 'application_package', 'org.angelauramc.amethyst'
+            resValue "string", "app_name", "Our Place Craft"
+            resValue "string", "app_short_name", "Our Place Craft"
+            resValue 'string', 'storageProviderAuthorities', 'com.ourplacecraft.launcher.scoped.gamefolder'
+            resValue 'string', 'application_package', 'com.ourplacecraft.launcher'
         }
         gplay {
             initWith release
@@ -185,6 +185,11 @@ android {
             keepDebugSymbols += ['**/libcutils.so']
             pickFirsts += ['**/libbytehook.so']
         }
+    }
+
+    // Our Place Craft: store the bundled modpack as-is
+    androidResources {
+        noCompress 'mrpack'
     }
 
     buildFeatures {

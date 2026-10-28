@@ -798,6 +798,9 @@ public final class Tools {
         return JSONUtils.insertJSONValueList(minecraftArgs.toArray(new String[0]), varArgMap);
     }
 
+    public static final String OPC_SERVER = "178.33.123.40:25774";
+    public static volatile boolean OPC_JOIN_SERVER = true;
+
     public static String[] getMinecraftClientArgs(MinecraftAccount profile, JMinecraftVersionList.Version versionInfo, File gameDir) {
         String username = profile.username.replace("Demo.", "");
         String versionName = versionInfo.id;
@@ -849,6 +852,8 @@ public final class Tools {
                 versionInfo.minecraftArguments;
 
         if(profile.isDemo()) mcArguments += " --demo";
+        // Our Place Craft: "PLAY" joins the server, long press starts singleplayer
+        if(OPC_JOIN_SERVER) mcArguments += " --quickPlayMultiplayer " + OPC_SERVER;
 
         return JSONUtils.insertJSONValueList(splitAndFilterEmpty(mcArguments), varArgMap);
     }

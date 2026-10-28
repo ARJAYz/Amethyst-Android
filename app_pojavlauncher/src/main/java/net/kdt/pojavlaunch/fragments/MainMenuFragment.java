@@ -71,7 +71,17 @@ public class MainMenuFragment extends Fragment {
         } else mInstallJarButton.setOnClickListener(v -> hasNoOnlineProfileDialog(requireActivity()));
         mEditProfileButton.setOnClickListener(v -> mVersionSpinner.openProfileEditor(requireActivity()));
 
+        mNewsButton.setVisibility(View.GONE);
+        mDiscordButton.setVisibility(View.GONE);
+        view.findViewById(R.id.social_divider).setVisibility(View.GONE);
+        mPlayButton.setOnLongClickListener(v -> {
+            Tools.OPC_JOIN_SERVER = false;
+            Toast.makeText(requireContext(), R.string.opc_singleplayer, Toast.LENGTH_SHORT).show();
+            ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true);
+            return true;
+        });
         mPlayButton.setOnClickListener(v -> {
+            Tools.OPC_JOIN_SERVER = true;
             if (Tools.hasMods("sodium") && !(LauncherPreferences.DEFAULT_PREF.getBoolean("sodium_override", false))) {
                 AlertDialog sodiumWarningDialog = new AlertDialog.Builder(requireContext())
                         .setTitle(R.string.sodium_warning_title)
