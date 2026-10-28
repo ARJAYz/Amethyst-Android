@@ -357,14 +357,31 @@ public class LauncherActivity extends BaseActivity {
         return mAccountSpinner;
     }
 
-    /** Our Place Craft: install the bundled pack again (e.g. the profile was deleted) */
+    private static volatile boolean sOpcInstallTried = false;
+
+    /** Our Place Craft: true when the modpack profile exists AND its game version is on disk */
+    public static boolean isOpcPackInstalled() {
+        net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.load();
+        if (net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.mainProfileJson == null) return false;
+        for (net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile profile :
+                net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.mainProfileJson.profiles.values()) {
+            if (profile != null && "OUR PLACE CRAFT".equals(profile.name) && profile.lastVersionId != null) {
+                File json = new File(Tools.DIR_HOME_VERSION + "/" + profile.lastVersionId + "/" + profile.lastVersionId + ".json");
+                if (json.exists()) return true;
+            }
+        }
+        return false;
+    }
+
+    /** Our Place Craft: install the bundled pack again (retry after a failure) */
     public void reinstallBundledPack() {
-        LauncherPreferences.DEFAULT_PREF.edit().putBoolean("opc_pack_installed", false).apply();
+        sOpcInstallTried = false;
         installBundledPackIfNeeded();
     }
 
     public void installBundledPackIfNeeded() {
-        if (LauncherPreferences.DEFAULT_PREF.getBoolean("opc_pack_installed", false)) return;
+        if (sOpcInstallTried) return;
+        if (isOpcPackInstalled()) return;
         String[] bundled;
         try {
             bundled = getAssets().list("opc");
@@ -373,6 +390,7 @@ public class LauncherActivity extends BaseActivity {
         }
         if (bundled == null || !java.util.Arrays.asList(bundled).contains("modpack.mrpack")) return;
         if (ProgressKeeper.getTaskCount() > 0) return;
+        sOpcInstallTried = true;
         PojavApplication.sExecutorService.execute(() -> {
             File modpackFile = new File(Tools.DIR_CACHE, "opc_modpack.mrpack");
             try {
@@ -386,7 +404,6 @@ public class LauncherActivity extends BaseActivity {
                 ModLoader loaderInfo = new CommonApi(getString(R.string.curseforge_api_key)).importModpack(modpackFile);
                 modpackFile.delete();
                 if (loaderInfo == null) return;
-                LauncherPreferences.DEFAULT_PREF.edit().putBoolean("opc_pack_installed", true).apply();
                 loaderInfo.getDownloadTask(new NotificationDownloadListener(this, loaderInfo)).run();
             } catch (Exception e) {
                 modpackFile.delete();

@@ -165,51 +165,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Install / download progress card -->
-    <FrameLayout
-        android:id="@+id/opc_progress_overlay"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#CC0A0910"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            style="@style/OpcCard"
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/opc_progress_title"
-                style="@style/OpcCardTitle"
-                android:text="@string/opc_install_title" />
-
-            <TextView
-                style="@style/OpcCardText"
-                android:text="@string/opc_install_text" />
-
-            <ProgressBar
-                android:id="@+id/opc_progress_bar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:max="100"
-                android:progressDrawable="@drawable/opc_progress" />
-
-            <TextView
-                android:id="@+id/opc_progress_text"
-                style="@style/OpcCardText"
-                android:layout_marginTop="@dimen/_8sdp" />
-        </LinearLayout>
-    </FrameLayout>
-
     <!-- First start: sign in -->
     <FrameLayout
         android:id="@+id/opc_login_overlay"
@@ -284,6 +239,51 @@
                     android:text="@string/opc_login_done" />
             </LinearLayout>
         </ScrollView>
+    </FrameLayout>
+
+    <!-- Install / download progress card -->
+    <FrameLayout
+        android:id="@+id/opc_progress_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#CC0A0910"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            style="@style/OpcCard"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/opc_progress_title"
+                style="@style/OpcCardTitle"
+                android:text="@string/opc_install_title" />
+
+            <TextView
+                style="@style/OpcCardText"
+                android:text="@string/opc_install_text" />
+
+            <ProgressBar
+                android:id="@+id/opc_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:max="100"
+                android:progressDrawable="@drawable/opc_progress" />
+
+            <TextView
+                android:id="@+id/opc_progress_text"
+                style="@style/OpcCardText"
+                android:layout_marginTop="@dimen/_8sdp" />
+        </LinearLayout>
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

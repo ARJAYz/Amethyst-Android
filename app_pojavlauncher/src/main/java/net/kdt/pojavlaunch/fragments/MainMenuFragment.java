@@ -215,10 +215,14 @@ public class MainMenuFragment extends Fragment {
         return null;
     }
 
-    /** Make our modpack profile the selected one; reinstall it if it went missing. */
+    /** Make our modpack profile the selected one; install it if it is missing or incomplete. */
     private boolean selectOpcProfile() {
-        LauncherProfiles.load();
-        if (LauncherProfiles.mainProfileJson == null) return false;
+        if (!LauncherActivity.isOpcPackInstalled()) {
+            if (ProgressKeeper.getTaskCount() == 0 && getActivity() instanceof LauncherActivity) {
+                ((LauncherActivity) getActivity()).installBundledPackIfNeeded();
+            }
+            return false;
+        }
         for (Map.Entry<String, MinecraftProfile> entry : LauncherProfiles.mainProfileJson.profiles.entrySet()) {
             MinecraftProfile profile = entry.getValue();
             if (profile != null && OPC_PROFILE_NAME.equals(profile.name)) {
@@ -230,11 +234,6 @@ public class MainMenuFragment extends Fragment {
                 }
                 return true;
             }
-        }
-        // Not installed (or deleted): start the bundled install if nothing is running
-        if (ProgressKeeper.getTaskCount() == 0 && getActivity() instanceof LauncherActivity
-                && LauncherPreferences.DEFAULT_PREF.getBoolean("opc_pack_installed", false)) {
-            ((LauncherActivity) getActivity()).reinstallBundledPack();
         }
         return false;
     }
@@ -253,6 +252,7 @@ public class MainMenuFragment extends Fragment {
         }
         if (!selectOpcProfile()) {
             Toast.makeText(requireContext(), R.string.opc_not_installed, Toast.LENGTH_LONG).show();
+            if (getActivity() instanceof LauncherActivity) ((LauncherActivity) getActivity()).reinstallBundledPack();
             return;
         }
         Tools.OPC_JOIN_SERVER = joinServer;
